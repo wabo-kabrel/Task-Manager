@@ -6,6 +6,9 @@ from rest_framework.response import Response
 # Import APIView, which allows us to create class-based API views
 from rest_framework.views import APIView  
 
+# Import DRF permissions to restrict access to authenticated users
+from rest_framework import permissions  
+
 # Import the model we want to expose via API
 from .models import Task  
 
@@ -21,6 +24,11 @@ class TaskListView(APIView):
     GET  -> List all tasks
     POST -> Create a new task
     """
+
+    # Remove authentication for testing purposes
+    permission_classes = [permissions.AllowAny]
+
+    # permission_classes = [permissions.IsAuthenticated]    # Apply authentication (Optional)
 
     def get(self, request):
         # Fetch all tasks from the database
@@ -39,7 +47,10 @@ class TaskListView(APIView):
         # Validate the data (check required fields, types, etc.)
         if serializer.is_valid():
             # Save the new Task to the database
-            serializer.save()
+            # Normally, we would assign the logged-in user as owner:
+            # serializer.save(owner=request.user)
+            # But since authentication is disabled for testing, we leave owner blank:
+            serializer.save(owner=None)  
 
             # Return the saved task with 201 Created status
             return Response(serializer.data, status=201)
@@ -57,6 +68,10 @@ class TaskDetailView(APIView):
     PUT    -> Update an existing task
     DELETE -> Delete a task
     """
+    # permission_classes = [permissions.IsAuthenticated]    # Apply authentication (Optional)
+
+    # Remove authentication for testing purposes
+    permission_classes = [permissions.AllowAny]
 
     def get_object(self, pk):
         """
@@ -99,8 +114,11 @@ class TaskDetailView(APIView):
         # Fetch task by ID
         task = self.get_object(pk)
         if task is None:
+            # Return 404 if task doesn't exist
             return Response({"error": "Task not found"}, status=404)
 
         # Delete the task from DB
         task.delete()
-        return Response({"message": "Task deleted successfully"}, status=204)
+
+        # Return 200 OK with a message confirming deletion
+        return Response({"message": "Task deleted successfully"}, status=200)

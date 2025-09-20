@@ -6,9 +6,14 @@ class Task(models.Model):
     title = models.CharField(max_length=200)  # Task title
     is_completed = models.BooleanField(default=False)  # Status: completed or not
     created_at = models.DateTimeField(auto_now_add=True)  # Auto-set when created
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)  
-    # Foreign key means each Task belongs to one User
-    # If the user is deleted, their tasks are deleted too (CASCADE)
+    owner = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        null=True,           # Allow owner to be empty
+        blank=True           # Allow blank in forms / serializers
+    )
+    # Now tasks can exist without an associated user
+    # If a user is deleted, their tasks are still deleted if owner exists
 
     def __str__(self):
         return self.title  # String representation in admin panel
