@@ -19,15 +19,34 @@ This project demonstrates user-friendly CRUD operations (Create, Read, Update, D
 ```bash
 taskmanager/
 │── taskmanager/        # Project settings
-│   └── urls.py         # Root URL config
-│── tasks/              # Main app
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py         # Root URL config
+│   └── wsgi.py
+│── tasks/              # Task management app
+│   ├── migrations/     # Database migrations
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
 │   ├── models.py       # Task model
+│   ├── tests.py
+│   ├── urls.py         # API routes
 │   ├── serializers.py  # DRF serializers
-│   ├── views.py        # API logic
-│   └── urls.py         # API routes
+│   └── views.py        # API logic
+│── accounts/           # User authentication app
+│   ├── migrations/     # Database migrations
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py         # Authentication routes
+│   └── views.py        # Registration, login, logout logic
 │── manage.py           # Django entrypoint
 │── requirements.txt    # Project dependencies
-└── README.md           # Documentation
+│── README.md           # Documentation
+└── LICENSE             # MIT License
 ```
 
 ## Installation
