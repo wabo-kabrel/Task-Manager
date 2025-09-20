@@ -1,5 +1,5 @@
 # Task Manager API
-A simple **Task Management Application** built with **Django** and **Django REST Framework (DRF)**.
+A simple **Task Management API** built with **Django** and **Django REST Framework (DRF)**.
 This project demonstrates user-friendly CRUD operations (Create, Read, Update, Delete) via RESTful APIs.
 
 ## Features
